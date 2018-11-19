@@ -40,11 +40,10 @@ If you want to do contribute your improvements, please follow these steps:
 
 ## Installation
 
-We suggest using docker to install and launch openrouteservice backend. In short, run the following command under the source code tree will get everything done (for this please
-clone the repository, running docker via the archive is currently not supported).
+Run latest version from [Docker hub] pointing to your data path (e.g. $PWD/docker/data/):
 
 ```bash
-cd docker && docker-compose up
+docker run --name openrouteservice -d -p 8080:8080 -v $PWD/docker/data/:/usr/local/tomcat/data/ giscience/openrouteservice
 ```
 
 For more details, check the [docker installation guide](docker/README.md).

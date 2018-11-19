@@ -1,13 +1,24 @@
 # Install and run openrouteservice with docker
 
-Installing the openrouteservice backend service with **Docker** is quite straightforward. Please note that the [Dockerfile](../Dockerfile) located in the repository root directory is merely for building the [WAR file](https://www.wikiwand.com/en/WAR_(file_format)).
+Installing the openrouteservice backend service with **Docker** is quite straightforward.
 
 ## Short version
 
-Please clone the repository (downloading the archive and running docker is currently not supported) and run the following command within this `docker/` directory:
+### Run from Docker hub
+
+Run latest version from [Docker hub] pointing to your data path (e.g. $PWD/docker/data/):
 
 ```bash
-sudo docker-compose up -d
+docker run --name openrouteservice -d -p 8080:8080 -v $PWD/docker/data/:/usr/local/tomcat/data/ giscience/openrouteservice
+```
+
+## Long version
+
+Please clone the repository (downloading the archive and running docker is currently not supported) and run the following commands in the root of the project:
+
+```bash
+docker build -t openrouteservice .
+docker run --name openrouteservice -d -p 8080:8080 -v $PWD/docker/data/:/usr/local/tomcat/data/ openrouteservice
 ```
 
 This will:
@@ -17,34 +28,6 @@ This will:
 3. Launch the openrouteservice service on port `8080` within a tomcat container.
 
 By default the service status is queryable via the `http://localhost:8080/ors/health` endpoint. When the service is ready, you will be able to request `http://localhost:8080/ors/status` for further information on the running services. If you use the default dataset you will be able to request `http://localhost:8080/ors/routes?profile=foot-walking&coordinates=8.676581,49.418204|8.692803,49.409465` for test purposes. 
-
-## Long version
-
-### WAR file building
-
-For building the WAR file only, either run
-
-```bash
-docker run -v /Users/user/build:/ors-core/build giscience/openrouteservice
-```
-
-or
-
-```bash
-docker-compose up ors-build
-```
-
-If everything goes fine, the built `ors.war` archive can be found under the shared host directory, e.g. `/Users/user/build` for the above `docker run` command or `./build/` for the `docker-compose` command.
-
-### Run openrouteservice
-
-No matter whether the WAR file has been built or not, simply run:
-
-```bash
-sudo docker-compose up
-```
-
-will take care of all steps with the sample Heidelberg dataset.
 
 ### Run with your own OpenStreetMap dataset
 
